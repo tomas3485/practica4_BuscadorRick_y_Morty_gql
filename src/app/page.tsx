@@ -1,66 +1,83 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client'
+import { GET_SIMPLE_CHARACTERS } from "@/features/characters/queries";
+import type { GetSimpleCharactersQuery, GetSimpleCharactersQueryVariables } from "@/gql/graphql";
 
-export default function Home() {
+import { useQuery } from "@apollo/client/react";
+import { useState } from "react";
+
+const Home = () => {
+  const [search, setSearch] = useState<string>("");
+  const [input, setInput] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
+
+  const { data, loading } = useQuery<GetSimpleCharactersQuery, GetSimpleCharactersQueryVariables>(
+    GET_SIMPLE_CHARACTERS,
+    {
+      variables: { filter: { name: search },page },
+    }
+  );
+  if (loading) return <p>loading...</p>;
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setSearch(input);
+    }
+  };
+
+  const totalPages = data?.characters?.info?.pages ?? 0;
+  
+
+  const getPages = () => {
+    const pages = [];
+
+    const start = Math.max(1, page - 3);
+    const end = page + 3;
+
+    for (let i = start; i <= end; i++) {
+      if (i <= totalPages) {
+        pages.push(i);
+      }
+    }
+
+    return pages;
+  };
+
+ 
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="main">
+      <div className="titulo">
+        <h1>Buscador Rick y Morty</h1>
+      </div>
+      <div className="input">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Buscar personaje..."
         />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </div>
+      <div className="personajes">
+      {data?.characters?.results?.map((e) => (
+        <div key={e?.id}>
+          <img  src={e?.image ??"" }/>
+          <p>{e?.name}</p>
+          <p>{e?.status}</p>
+          </div>
+      ))}
+      </div>
+      <div className="paginacion">
+        {getPages().map((p) => (
+          <button
+            key={p}
+            onClick={() => setPage(p)}
+            className={p === page ? "paginaActual" : ""}>
+            {p}
+          </button>
+        ))}
+      </div>
     </div>
   );
-}
+};
+
+export default Home;
