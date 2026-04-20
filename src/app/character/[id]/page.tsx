@@ -3,7 +3,8 @@ import { GET_CHARACTER_BY_ID } from "@/features/characters/queries";
 import { GetCharacterByIdQuery, type GetCharacterByIdQueryVariables } from "@/gql/graphql";
 import { useQuery } from "@apollo/client/react";
 import { useParams } from "next/navigation"
-import "@/app/character/[id]/page.css"
+import "@/app/character/[id]/page3.css"
+import Link from "next/link";
 
 const CharacterInfo = ()=> {
     const params = useParams();
@@ -19,13 +20,16 @@ const CharacterInfo = ()=> {
 
     const character = data?.character;
     return(
-        <div className="mainCharacter">
-            <h1>{character?.name}</h1>
-            <img src={character?.image ?? ""}/>
-            <div className="info">
-                <p>Especie: {character?.species}</p>
-                <p>Estado: {character?.status}</p>
-                <p>Origen: {character?.origin?.name}</p>
+        <div className="bckg">
+            <div className="mainCharacter">
+                <h1>{character?.name}</h1>
+                <img src={character?.image ?? ""}/>
+                <div className="info">
+                    <p>Especie: {character?.species}</p>
+                    <p>Estado: {character?.status}</p>
+                    <p>Origen: {character?.origin?.name}</p>
+                </div>
+                <Link href={`/`}>HOME</Link>
             </div>
         </div>
     )

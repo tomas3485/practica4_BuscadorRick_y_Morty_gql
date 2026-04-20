@@ -1,0 +1,26 @@
+.mainCharacter{
+    display: flex;
+    flex-direction: column;  
+    width: 600px;
+    height: 600px;
+    background-color: gray;
+    align-items: center;
+    border-radius: 30px;
+    margin-top: 100px;
+}
+.mainCharacter img {
+    width: 300px;
+    height: 300px;
+    border-radius: 50px;
+}
+.bckg{
+    background-color:cadetblue;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.info{
+    margin-bottom: 30px;
+}

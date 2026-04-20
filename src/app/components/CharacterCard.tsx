@@ -1,5 +1,5 @@
-import Link from "next/link"
-
+import Link from "next/link" 
+import "@/app/components/page2.css"
 
 
 export type Params = {
@@ -11,7 +11,7 @@ export type Params = {
 export const CharacterCard =  ({id,name,image,status}:Params)=>{
     return(
       <Link href={`/character/${id}`}>
-        <div>
+        <div className="cont">
         <div key={id}>
           <img src={image ??"" }/>
           <p>{name}</p>

@@ -28,20 +28,22 @@ const Home = () => {
   const totalPages = data?.characters?.info?.pages ?? 0;
   
 
-  const getPages = () => {
-    const pages = [];
+const getPages = () => {
+  const pages: (number | "...")[] = [];
 
-    const start = Math.max(1, page - 3);
-    const end = page + 3;
+  const start = Math.max(2, page - 2);
+  const end = Math.min(totalPages, page + 2);
 
-    for (let i = start; i <= end; i++) {
-      if (i <= totalPages) {
-        pages.push(i);
-      }
-    }
+  pages.push(1);
 
-    return pages;
-  };
+  if (start > 2) pages.push("...");
+
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+
+  return pages;
+};
 
  
   return (
@@ -73,7 +75,7 @@ const Home = () => {
           <button
             key={p}
             onClick={() => setPage(p)}
-            className={p === page ? "paginaActual" : ""}>
+            >
             {p}
           </button>
         ))}

@@ -1,0 +1,17 @@
+.cont{
+    display: flex;
+    flex-direction: column;
+    background-color: gray;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100%; 
+    justify-content:  center; 
+}
+.cont img{
+    border-radius: 10px;
+}
+/*esto quita el azul del link, que es feo de pelotas*/
+a {
+  color: inherit;        
+  text-decoration: none; 
+}
