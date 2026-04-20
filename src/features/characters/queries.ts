@@ -9,10 +9,24 @@ export const GET_SIMPLE_CHARACTERS = gql`
         image
         status
       }info {
-        next
-        prev
         pages
       }
     }
   }
+`;
+
+export const GET_CHARACTER_BY_ID = gql`
+  query GetCharacterByID($characterId: ID! ){
+    character(id:$characterId){
+      id
+      name
+      origin {
+        name
+      }
+      species
+      status
+      image
+    }
+  }
+
 `;

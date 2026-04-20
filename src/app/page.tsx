@@ -1,4 +1,5 @@
 'use client'
+import { CharacterCard } from "@/app/components/CharacterCard";
 import { GET_SIMPLE_CHARACTERS } from "@/features/characters/queries";
 import type { GetSimpleCharactersQuery, GetSimpleCharactersQueryVariables } from "@/gql/graphql";
 
@@ -59,11 +60,12 @@ const Home = () => {
       </div>
       <div className="personajes">
       {data?.characters?.results?.map((e) => (
-        <div key={e?.id}>
-          <img  src={e?.image ??"" }/>
-          <p>{e?.name}</p>
-          <p>{e?.status}</p>
-          </div>
+        <CharacterCard
+          image={e?.image}
+          key={e?.id}
+          id={e?.id}
+          name={e?.name}
+          status={e?.status}/>
       ))}
       </div>
       <div className="paginacion">
