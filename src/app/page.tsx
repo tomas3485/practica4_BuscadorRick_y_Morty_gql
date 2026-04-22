@@ -71,14 +71,15 @@ const getPages = () => {
       ))}
       </div>
       <div className="paginacion">
-        {getPages().map((p) => (
-          <button
-            key={p}
-            onClick={() => setPage(p)}
-            >
-            {p}
-          </button>
-        ))}
+       {getPages().map((p, i) => (
+  <button
+    key={i}
+    onClick={() => typeof p === "number" && setPage(p)}
+    disabled={p === "..."}
+  >
+    {p}
+  </button>
+))}
       </div>
     </div>
   );
